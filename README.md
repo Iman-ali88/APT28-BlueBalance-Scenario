@@ -42,8 +42,8 @@ On a routine Tuesday morning, a senior analyst at the National Finance Authority
 # **Part A: Setup**
 
 ### Step 1 — Create Evidence Directory
+![Picture1](Picture1.png)
 
-![[Picture1.png]]
 
 
 ### Step 2 — Download NulltackKatz.py
@@ -57,25 +57,28 @@ Save the tool as C:\NulltackLab\NulltackKatz.py
 ·       Start Wireshark capture on all interfaces
 
 ·       Filter: tls or smtp or http
-![[Picture2.png]]
+![Picture2](Picture2.png)
+
 
 ·       Verify Sysmon is running
 
 ·       Get-Service Sysmon
+![Picture3](Picture3.png)
 
-![[Picture3.png]]
+
 # **Part B: Execute Attack**
 
 ### Task 1 — Run NulltackKatz
+![Picture4](Picture4.png)
 
-![[Picture4.png]]
+
 # **Part C: Detection & Investigation**
 
 Analyze the generated phishing email:
 
 • Open: C:\NulltackLab\logs\phishing_email_BLUEDELTA_*.txt
+![Picture5](Picture5.png)
 
-![[Picture5 1.png]]
 ## **Task 2 - Email Analysis (T1566.001 Detection)**
 
 Analyze the generated phishing email:
@@ -95,8 +98,9 @@ Analyze the generated phishing email:
 ·       Query the Sysmon Event Log for LSASS access:
 
 ·       Get-WinEvent -FilterHashtable @{ LogName='Microsoft-Windows-Sysmon/Operational'; ID=10 } | Where-Object {$_.Message -like "*lsass.exe*"} | Format-List
-![[Picture6.png]]
-![[Picture7.png]]
+![Picture6](Picture6.png)
+![Picture7](Picture7.png)
+
 
 
 | **Question**                                         | **Answer**                                                                                                                                                                                                                                                               |
@@ -110,8 +114,9 @@ Analyze the generated phishing email:
 ## **Task 4 — Process Tree Analysis**
 
 Query process creation events:
-![[Picture8.png]]
-![[Picture9.png]]
+![Picture8](Picture8.png)
+![Picture9](Picture9.png)
+
 
 
 | **Question**                                     | **Answer**                                                                                    |
@@ -138,33 +143,39 @@ Open the Wireshark capture and apply the following filter:
 ## **Task 6 — Memory Forensics (Volatility 3)**
 
 ·       Run Mimikatz and keep the window open so that it leaves its mark in the random access memory (RAM).
-![[Picture10.png]]
+![Picture10](Picture10.png)
+
 Using DumpIt to capture RAM  , run the DumpIt as an Administration:
-![[Picture11.png]]
+![Picture11](Picture11.png)
+
 ·       Identify image info :
 
 Ø  python vol.py -f APT.dmp windows.info
+![Picture12](Picture12.png)
 
-![[Picture12.png]]
 ·       List processes:
 
 Ø  python vol.py -f APT.dmp windows.pslist
-![[Picture13.png]]
+![Picture13](Picture13.png)
+
 
 ·       Find Mimikatz in memory:
 
 Ø  python vol.py -f APT.dmp windows.psscan | Select-String "mimikatz"
-![[Picture14.png]]
+![Picture14](Picture14.png)
+
 ·       Find NulltackKatz in memory:
 
 Ø  python vol.py -f APT.dmp windows.psscan | Select-String "NulltackKatz"
+![Picture15](Picture15.png)
 
-![[Picture15.png]]
+
 ·       Check LSASS handle access:
 
 Ø  python vol.py -f APT.dmp windows.handles | Select-String "lsass"
+![Picture16](Picture16.png)
 
-![[Picture16.png]]
+
 
 
 | **Question**                                         | **Answer** |
@@ -375,8 +386,9 @@ This report looked at the goals, methods of attack, and operational behavior of 
  Finally, to help in understanding the attack lifecycle, a Knowledge Graph was created to illustrate the relationships between the threat actor, attack techniques, and forensic evidence.
 
 ## **Threat Intelligence Knowledge Graph**
+![Picture17](Picture17.png)
 
-![[Picture17.png]]
+
 # **References & Resources**
 
 |   |   |
